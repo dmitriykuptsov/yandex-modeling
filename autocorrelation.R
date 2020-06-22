@@ -7,7 +7,7 @@ pdf("autocorrelation.pdf");
 # Just as correlation measures the extent of a linear relationship 
 # between two variables, autocorrelation measures the linear relationship 
 # between lagged values of a time series.
-acf(yandex$visits-levels, lag.max=282);
+acf(yandex$visits-levels, lag.max=282, main="Autocorrelation", xlab="Lag", ylab="ACF");
 grid(col="black");
 dev.off();
 
