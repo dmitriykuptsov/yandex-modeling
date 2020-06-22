@@ -44,9 +44,6 @@ yandex<-data.frame("week" = seq(1, 282, 1), "visits" = yandex/1000000);
 # Fit linear regression model
 fit<-tslm(visits~week, ts(yandex));
 
-# Convert data into time series object
-yandex<-ts(yandex/1000000, frequency=52);
-
 # Draw linear regression model
 abline(fit, col="dark blue", lwd=6);
 
@@ -58,6 +55,13 @@ p <- predict(hw, 52, prediction.interval = FALSE);
 
 # Plot predicted data
 points(seq(283, 334), p, col="light blue", lwd=6, type="l");
+
+# Merge data
+months <- c(rep(1:12, times=7, each=4))[1:334];
+predicted_yandex <- data.frame("week"=seq(283, 334), "visits"=c(p));
+yandex<-rbind(yandex, predicted_yandex);
+yandex$months <- months;
+#print(yandex);
 
 # Plot linear regression
 abline(fit, col="dark blue", lwd=6);
@@ -72,7 +76,7 @@ plot(seq(1, 282, 1), google/1000000, col="dark red", type="l", main="Real data v
 hw<-HoltWinters(ts(google/1000000, frequency=52));
 google<-data.frame("week" = seq(1, 282, 1), "visits" = google/1000000);
 fit<-tslm(visits~week, ts(google));
-google<-ts(google/1000000, frequency=52);
+#google<-ts(google/1000000, frequency=52);
 abline(fit, col="dark blue", lwd=6);
 print(fit);
 p <- predict(hw, 52, prediction.interval = FALSE);
@@ -83,6 +87,3 @@ legend("topleft", c("Real data (Google)", "Linear regression", "Holt-Winters pre
 # Write plots to the file
 dev.off();
 
-pdf("yandex_acf.pdf");
-acf(yandex, h=282);
-dev.off();
