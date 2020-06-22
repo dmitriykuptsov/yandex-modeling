@@ -1,4 +1,3 @@
-yandex<-scan("yandex.csv");
 yandex<-scan("yandex.csv", sep="");
 yandex<-data.frame(weeks=seq(1, 282), visits=yandex);
 model<-lm(formula = visits ~ weeks, data = yandex);
